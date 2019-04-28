@@ -46,6 +46,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        // 异常拦截
+        $reporter = ApiExceptionHandle::make($request, $exception);
+
+        if ($reporter->shouldReturn()) {
+            return $reporter->report();
+        }
+
         return parent::render($request, $exception);
     }
 }
